@@ -15,7 +15,4 @@
         android:layout_height="25dp"
         android:id="@+id/longitude"/>
 
-    <include
-        layout="@layout/map_fragment"/>
-
 </LinearLayout>

@@ -2,6 +2,7 @@ package pl.doters.doters;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,7 +15,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+
+public class MainActivity
+        extends AppCompatActivity
+        implements OnMapReadyCallback {
 
     /**
      * TAG for Logs
@@ -34,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.test_layout);
         permissions = checkPermissions();
         marshmallowGPSPremissionCheck();
         if (permissions) {
@@ -46,10 +55,40 @@ public class MainActivity extends AppCompatActivity {
 
             tvLat.setText("Latitude : " + uLatitude);
             tvLon.setText("Longitude : " + uLongitude);
+
+            if (googleServicesAvailable()) {
+                setContentView(R.layout.activity_main);
+                initMap();
+            } else {
+                Log.e(TAG, "Nie Dostępne Usługi Google");
+            }
+
         } else {
             Log.e(TAG, "Brak Pozwoleń na Lokalizacje !");
             onCreate(savedInstanceState);
         }
+    }
+
+    private void initMap() {
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
+    }
+
+    public boolean googleServicesAvailable() {
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int isAvailable = api.isGooglePlayServicesAvailable(this);
+        if (isAvailable == ConnectionResult.SUCCESS) {
+            return true;
+        } else if (api.isUserResolvableError(isAvailable)) {
+            Dialog dialog = api.getErrorDialog(this, isAvailable, 0);
+            dialog.show();
+        } else {
+            Log.e(TAG, "Can't connect to Google Play Services");
+        }
+        return false;
     }
 
     private boolean checkPermissions() {
@@ -83,4 +122,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+    }
 }
