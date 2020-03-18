@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Doters</string>
+    <string name="testLatitude">Latitude : </string>
+    <string name="testLongitude">Longitude : </string>
 </resources>
