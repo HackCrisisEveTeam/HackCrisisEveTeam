@@ -1,0 +1,2 @@
+rootProject.name='Doters'
+include ':app'

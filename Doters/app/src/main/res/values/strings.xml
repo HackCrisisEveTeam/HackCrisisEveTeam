@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Doters</string>
+    <string name="testLatitude">Latitude : </string>
+    <string name="testLongitude">Longitude : </string>
+    <string name="google_maps_key">AIzaSyAU-5ZSj3oc0F_jbHM1B62VjA7xdSzkKjM</string>
+</resources>
