@@ -17,9 +17,12 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 public class MainActivity
         extends AppCompatActivity
@@ -39,6 +42,13 @@ public class MainActivity
     boolean permissions = false;
     int MY_PERMISSION_LOCATION = 10;
 
+    SupportMapFragment mapFragment;
+    GoogleMap mGoogleMap;
+    TextView tvLon;
+    TextView tvLat;
+    LocationManager lm;
+
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +60,8 @@ public class MainActivity
             Log.i(TAG, "You Got The Permissions!");
             getLocation();
 
-            TextView tvLat = findViewById(R.id.latitude);
-            TextView tvLon = findViewById(R.id.longitude);
+            tvLat = findViewById(R.id.latitude);
+            tvLon = findViewById(R.id.longitude);
 
             tvLat.setText("Latitude : " + uLatitude);
             tvLon.setText("Longitude : " + uLongitude);
@@ -70,14 +80,14 @@ public class MainActivity
     }
 
     private void initMap() {
-        SupportMapFragment mapFragment =
+        mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
     }
 
-    public boolean googleServicesAvailable() {
+    private boolean googleServicesAvailable() {
         GoogleApiAvailability api = GoogleApiAvailability.getInstance();
         int isAvailable = api.isGooglePlayServicesAvailable(this);
         if (isAvailable == ConnectionResult.SUCCESS) {
@@ -96,16 +106,16 @@ public class MainActivity
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void getLocation() {
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    private void getLocation() {
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (permissions) {
             if (lm != null) {
-                @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if (location != null) {
-                    uLatitude = location.getLatitude();
-                    uLongitude = location.getLongitude();
-                    cLatitude = location.getLatitude();
-                    cLongitude = location.getLongitude();
+                @SuppressLint("MissingPermission") Location locationGPS = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (locationGPS != null) {
+                    uLatitude = locationGPS.getLatitude();
+                    uLongitude = locationGPS.getLongitude();
+                    cLatitude = locationGPS.getLatitude();
+                    cLongitude = locationGPS.getLongitude();
                 }
             }
         }
@@ -124,6 +134,25 @@ public class MainActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        setUpMap();
+        goToLocationZoom();
+        UpdateLocation();
+    }
+
+    private void setUpMap() {
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mGoogleMap.setMyLocationEnabled(true);
+    }
+
+    private void goToLocationZoom() {
+        LatLng ll = new LatLng(uLatitude, uLongitude);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, (float) 15);
+        mGoogleMap.moveCamera(update);
+    }
+
+    private void UpdateLocation() {
 
     }
+
 }
