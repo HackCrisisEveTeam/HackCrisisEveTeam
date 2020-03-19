@@ -166,7 +166,7 @@ public class MainActivity
     }
     private void goToLocationZoom() {
         LatLng ll = new LatLng(uLatitude, uLongitude);
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, (float) 15);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, (float) 19);
         mGoogleMap.moveCamera(update);
     }
     @SuppressLint("SetTextI18n")
@@ -182,8 +182,8 @@ public class MainActivity
             tvLon.setText("LongiTude : " + uLongitude);
             tvLat.setText("Latitude : " + uLatitude);
 
-            double resetDist = 25.00000000;
-            double warnDist = 10.00000000;
+            double resetDist = 25.000000000000;
+            double warnDist = 10.000000000000;
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel =
