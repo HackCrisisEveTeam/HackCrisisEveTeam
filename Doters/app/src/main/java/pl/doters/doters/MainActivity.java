@@ -93,6 +93,11 @@ public class MainActivity
         } else {
             //Blok Odpowiedzialny za zbieranie info
             Log.i(TAG, "onCreate: Trzeba Zebrać Dane");
+            settings = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = settings.edit();
+            String tmpID = "tmp id";
+            editor.putString("id", tmpID);
+            editor.apply();
         }
     }
     private void initMap() {
@@ -118,6 +123,9 @@ public class MainActivity
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
+    /**
+     * TODO : change it to take location from firebase after set
+     */
     @SuppressLint("MissingPermission")
     private void getLocation() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
