@@ -77,13 +77,6 @@ public class MainActivity
             if (permissions) {
                 Log.i(TAG, "You Got The Permissions!");
                 getLocation();
-
-                tvLat = findViewById(R.id.latitude);
-                tvLon = findViewById(R.id.longitude);
-
-                tvLat.setText("Latitude : " + uLatitude);
-                tvLon.setText("Longitude : " + uLongitude);
-
                 if (googleServicesAvailable()) {
                     setContentView(R.layout.activity_main);
                     tvLat = findViewById(R.id.latitude);
@@ -99,6 +92,7 @@ public class MainActivity
             }
         } else {
             //Blok Odpowiedzialny za zbieranie info
+            Log.i(TAG, "onCreate: Trzeba Zebrać Dane");
         }
     }
     private void initMap() {
