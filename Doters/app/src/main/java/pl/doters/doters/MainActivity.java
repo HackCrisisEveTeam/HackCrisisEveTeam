@@ -95,9 +95,13 @@ public class MainActivity
             Log.i(TAG, "onCreate: Trzeba Zebrać Dane");
             settings = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = settings.edit();
+            /*
+              TODO: Zastąpić wpisywaniem identyfikatora FireBase
+             */
             String tmpID = "tmp id";
             editor.putString("id", tmpID);
             editor.apply();
+            onCreate(savedInstanceState);
         }
     }
     private void initMap() {
