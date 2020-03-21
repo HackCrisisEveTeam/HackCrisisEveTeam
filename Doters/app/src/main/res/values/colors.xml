@@ -6,4 +6,5 @@
 
     <color name="transparentRed">#40FF0000</color>
     <color name="transparentYellow">#40ffff00</color>
+    <color name="white">#fff</color>
 </resources>

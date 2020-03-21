@@ -13,12 +13,17 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -29,6 +34,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import pl.doters.doters.fragments.CalendarFragment;
+import pl.doters.doters.fragments.HistoryFragment;
+import pl.doters.doters.fragments.HomeFragment;
+import pl.doters.doters.fragments.MoreFragment;
+import pl.doters.doters.fragments.RewardsFragment;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
@@ -56,6 +68,7 @@ public class MainActivity
     private TextView tvLon;
     private TextView tvLat;
 
+    private BottomNavigationView bottomNavigationView;
 
     private static final String CHANNEL_ID = "range_notifications";
     private static final String CHANNEL_NAME = "Range Notifications";
@@ -91,6 +104,56 @@ public class MainActivity
             Log.e(TAG, "Brak Pozwoleń na Lokalizacje !");
             onCreate(savedInstanceState);
         }
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        FragmentManager fm = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction;
+
+                        switch (item.getItemId()) {
+                            case R.id.home:
+                                Fragment homeFragment = new HomeFragment();
+                                fragmentTransaction = fm.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, homeFragment);
+                                fragmentTransaction.commit();
+                                break;
+
+                            case R.id.history:
+                                Fragment historyFragment = new HistoryFragment();
+                                fragmentTransaction = fm.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, historyFragment);
+                                fragmentTransaction.commit();
+                                break;
+
+                            case R.id.calendar:
+                                Fragment calendarFragment = new CalendarFragment();
+                                fragmentTransaction = fm.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, calendarFragment);
+                                fragmentTransaction.commit();
+                                break;
+
+                            case R.id.rewards:
+                                Fragment rewardsFragment = new RewardsFragment();
+                                fragmentTransaction = fm.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, rewardsFragment);
+                                fragmentTransaction.commit();
+                                break;
+
+                            case R.id.more:
+                                Fragment moreFragment = new MoreFragment();
+                                fragmentTransaction = fm.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, moreFragment);
+                                fragmentTransaction.commit();
+                                break;
+
+                        }
+                        return true;
+                    }
+                }
+        );
     }
     private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -231,4 +294,6 @@ public class MainActivity
         notificationManagerCompat.notify(1, mBuilder.build());
 
     }
+
+
 }
