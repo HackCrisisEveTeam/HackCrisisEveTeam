@@ -6,9 +6,9 @@ Project Made during the HackCrisis Hackatonn Android App for motive people to st
 ***Gradle Version :***  
 
 ### Team Working on Project :
-Ewelina - PM / marketing / business  
-Magda - UX  
-Patrycja - UX/marketing/concept  
-Bartek - Programist  
-Piotr - Programist  
-Maciej - Programist  
+Ewelina Dalik, ewelinadalik@gmail.com, PM&business
+Magdalena Kudła, mzsdbm@gmail.com, UX lead
+Patrycja Bielec, patrycja.bielec.w@gmail.com, UX researcher & marketing
+Maciej Zygadło, xsardas665@gmail.com, Lead developer
+Piotr Wójcik, www@pwojcik.pl, Technical support
+Mateusz Gnyp, tysioncszejset@gmail.com, Developer 
