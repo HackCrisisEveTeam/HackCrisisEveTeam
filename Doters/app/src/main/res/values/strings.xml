@@ -3,4 +3,8 @@
     <string name="testLatitude">Latitude : </string>
     <string name="testLongitude">Longitude : </string>
     <string name="google_maps_key">AIzaSyAU-5ZSj3oc0F_jbHM1B62VjA7xdSzkKjM</string>
+    <string name="Name">Name :</string>
+    <string name="i_am_alone">I am Alone</string>
+    <string name="i_am_with_family">I am with Family</string>
+    <string name="when_will_your_quarantine_begins">When will your quarantine begins ?</string>
 </resources>

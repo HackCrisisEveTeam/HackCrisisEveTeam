@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:text="@string/when_will_your_quarantine_begins"
+            android:padding="10dp"
+            android:textSize="45sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+        
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:datePickerMode="calendar"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="75dp"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:text="Next"/>
+
+</LinearLayout>

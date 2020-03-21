@@ -6,12 +6,14 @@ import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -78,31 +80,37 @@ public class MainActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_layout);
-        permissions = checkPermissions();
-        marshmallowGPSPremissionCheck();
-        if (permissions) {
-            Log.i(TAG, "You Got The Permissions!");
-            getLocation();
+        //setContentView(R.layout.test_layout);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String id = settings.getString("id", null);
 
-            tvLat = findViewById(R.id.latitude);
-            tvLon = findViewById(R.id.longitude);
+        if (id != null) {
+            permissions = checkPermissions();
+            marshmallowGPSPremissionCheck();
+            if (permissions) {
+                Log.i(TAG, "You Got The Permissions!");
+                getLocation();
+                if (googleServicesAvailable()) {
+                    setContentView(R.layout.activity_main);
+                    tvLat = findViewById(R.id.latitude);
+                    tvLon = findViewById(R.id.longitude);
+                    initMap();
+                } else {
+                    Log.e(TAG, "Nie Dostępne Usługi Google");
+                }
 
-            tvLat.setText("Latitude : " + uLatitude);
-            tvLon.setText("Longitude : " + uLongitude);
-
-            if (googleServicesAvailable()) {
-                setContentView(R.layout.activity_main);
-                tvLat = findViewById(R.id.latitude);
-                tvLon = findViewById(R.id.longitude);
-                initMap();
             } else {
-                Log.e(TAG, "Nie Dostępne Usługi Google");
+                Log.e(TAG, "Brak Pozwoleń na Lokalizacje !");
+                onCreate(savedInstanceState);
             }
-
         } else {
-            Log.e(TAG, "Brak Pozwoleń na Lokalizacje !");
-            onCreate(savedInstanceState);
+            //Blok Odpowiedzialny za zbieranie info
+            Log.i(TAG, "onCreate: Trzeba Zebrać Dane");
+            settings = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = settings.edit();
+            String tmpID = "tmp id";
+            editor.putString("id", tmpID);
+            editor.apply();
         }
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -178,6 +186,9 @@ public class MainActivity
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
+    /**
+     * TODO : change it to take location from firebase after set
+     */
     @SuppressLint("MissingPermission")
     private void getLocation() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
